@@ -31,6 +31,7 @@
 		1687F4001A16814E0014AAC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1687F4011A16814E0014AAC7 /* braintree_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = braintree_swiftTests.swift; sourceTree = "<group>"; };
 		1687F40B1A16819C0014AAC7 /* Braintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Braintree.swift; sourceTree = "<group>"; };
+		1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BraintreeUsage.playground; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 				1687F3F11A16814E0014AAC7 /* braintree-swift */,
 				1687F3FE1A16814E0014AAC7 /* braintree-swiftTests */,
 				1687F3F01A16814E0014AAC7 /* Products */,
+				1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */,
 			);
 			sourceTree = "<group>";
 		};

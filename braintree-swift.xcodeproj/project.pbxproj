@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1687F3F51A16814E0014AAC7 /* braintree-swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1687F3F41A16814E0014AAC7 /* braintree-swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1687F3FB1A16814E0014AAC7 /* Braintree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1687F3EF1A16814E0014AAC7 /* Braintree.framework */; };
-		1687F4021A16814E0014AAC7 /* braintree_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687F4011A16814E0014AAC7 /* braintree_swiftTests.swift */; };
 		1687F40C1A16819C0014AAC7 /* Braintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687F40B1A16819C0014AAC7 /* Braintree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1687F3FC1A16814E0014AAC7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1687F3E61A16814E0014AAC7 /* Project object */;
 			proxyType = 1;
@@ -27,9 +24,6 @@
 		1687F3EF1A16814E0014AAC7 /* Braintree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Braintree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1687F3F31A16814E0014AAC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1687F3F41A16814E0014AAC7 /* braintree-swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "braintree-swift.h"; sourceTree = "<group>"; };
-		1687F3FA1A16814E0014AAC7 /* braintree-swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "braintree-swiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1687F4001A16814E0014AAC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1687F4011A16814E0014AAC7 /* braintree_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = braintree_swiftTests.swift; sourceTree = "<group>"; };
 		1687F40B1A16819C0014AAC7 /* Braintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Braintree.swift; sourceTree = "<group>"; };
 		1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BraintreeUsage.playground; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -42,11 +36,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1687F3F71A16814E0014AAC7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1687F3FB1A16814E0014AAC7 /* Braintree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				1687F3F11A16814E0014AAC7 /* braintree-swift */,
-				1687F3FE1A16814E0014AAC7 /* braintree-swiftTests */,
 				1687F3F01A16814E0014AAC7 /* Products */,
 				1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */,
 			);
@@ -67,7 +58,6 @@
 			isa = PBXGroup;
 			children = (
 				1687F3EF1A16814E0014AAC7 /* Braintree.framework */,
-				1687F3FA1A16814E0014AAC7 /* braintree-swiftTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,7 +67,6 @@
 			children = (
 				1687F3F41A16814E0014AAC7 /* braintree-swift.h */,
 				1687F3F21A16814E0014AAC7 /* Supporting Files */,
-				1687F40B1A16819C0014AAC7 /* Braintree.swift */,
 			);
 			path = "braintree-swift";
 			sourceTree = "<group>";
@@ -90,19 +79,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1687F3FE1A16814E0014AAC7 /* braintree-swiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				1687F4011A16814E0014AAC7 /* braintree_swiftTests.swift */,
-				1687F3FF1A16814E0014AAC7 /* Supporting Files */,
 			);
-			path = "braintree-swiftTests";
 			sourceTree = "<group>";
 		};
-		1687F3FF1A16814E0014AAC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1687F4001A16814E0014AAC7 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -139,23 +122,13 @@
 			productReference = 1687F3EF1A16814E0014AAC7 /* Braintree.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		1687F3F91A16814E0014AAC7 /* braintree-swiftTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1687F4081A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "braintree-swiftTests" */;
 			buildPhases = (
-				1687F3F61A16814E0014AAC7 /* Sources */,
-				1687F3F71A16814E0014AAC7 /* Frameworks */,
-				1687F3F81A16814E0014AAC7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1687F3FD1A16814E0014AAC7 /* PBXTargetDependency */,
 			);
-			name = "braintree-swiftTests";
-			productName = "braintree-swiftTests";
-			productReference = 1687F3FA1A16814E0014AAC7 /* braintree-swiftTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -169,7 +142,6 @@
 					1687F3EE1A16814E0014AAC7 = {
 						CreatedOnToolsVersion = 6.1;
 					};
-					1687F3F91A16814E0014AAC7 = {
 						CreatedOnToolsVersion = 6.1;
 					};
 				};
@@ -187,7 +159,6 @@
 			projectRoot = "";
 			targets = (
 				1687F3EE1A16814E0014AAC7 /* braintree-swift */,
-				1687F3F91A16814E0014AAC7 /* braintree-swiftTests */,
 			);
 		};
 /* End PBXProject section */
@@ -200,7 +171,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1687F3F81A16814E0014AAC7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -218,21 +188,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1687F3F61A16814E0014AAC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1687F4021A16814E0014AAC7 /* braintree_swiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1687F3FD1A16814E0014AAC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1687F3EE1A16814E0014AAC7 /* braintree-swift */;
-			targetProxy = 1687F3FC1A16814E0014AAC7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -355,32 +321,18 @@
 			};
 			name = Release;
 		};
-		1687F4091A16814E0014AAC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "braintree-swiftTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		1687F40A1A16814E0014AAC7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "braintree-swiftTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -406,11 +358,8 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1687F4081A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "braintree-swiftTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1687F4091A16814E0014AAC7 /* Debug */,
-				1687F40A1A16814E0014AAC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

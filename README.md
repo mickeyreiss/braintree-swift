@@ -35,7 +35,7 @@ braintree.tokenize(card) { result in
 
 See [Braintree Playground](BraintreeUsage.playground/section-1.swift).
 
-Read [Braintree's developer documentation](https://developers.braintreepayments.com/ios) for more information about the processing payments with Braintree.
+Read [Braintree's developer documentation](https://developers.braintreepayments.com/ios/sdk/overview/how-it-works) for more information about the processing payments with Braintree.
 
 ## Minimum Requirements
 

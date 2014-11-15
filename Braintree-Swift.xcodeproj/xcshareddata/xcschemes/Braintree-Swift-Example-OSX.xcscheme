@@ -20,20 +20,6 @@
                ReferencedContainer = "container:Braintree-Swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "16D81C1A1A171A8F00E47410"
-               BuildableName = "Braintre-Swift-OSXTests.xctest"
-               BlueprintName = "Braintre-Swift-OSXTests"
-               ReferencedContainer = "container:Braintree-Swift.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "16D81C1A1A171A8F00E47410"
-               BuildableName = "Braintre-Swift-OSXTests.xctest"
-               BlueprintName = "Braintre-Swift-OSXTests"
-               ReferencedContainer = "container:Braintree-Swift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

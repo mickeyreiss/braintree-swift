@@ -9,7 +9,7 @@
 import Cocoa
 import Braintree
 
-class ViewController: NSViewController {
+class ViewControllerOSX: NSViewController {
     @IBOutlet var nonceLabel : NSTextField!
 
     let session = NSURLSession(configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),

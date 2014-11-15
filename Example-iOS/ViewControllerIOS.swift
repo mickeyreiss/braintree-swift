@@ -6,7 +6,7 @@ func debug(message : String) {
     println(message)
 }
 
-class ViewController: UIViewController {
+class ViewControllerIOS: UIViewController {
     let session = NSURLSession(configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
         delegate: nil,
         delegateQueue: NSOperationQueue.mainQueue())

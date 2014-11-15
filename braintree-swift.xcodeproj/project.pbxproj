@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		167864D51A18074F003CC656 /* Braintree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1687F3EF1A16814E0014AAC7 /* Braintree.framework */; };
+		160FF30C1A18129D00DD8546 /* Braintree_Swift_iOS_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FF30B1A18129D00DD8546 /* Braintree_Swift_iOS_Tests.swift */; };
+		160FF3141A18139100DD8546 /* Braintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687F40B1A16819C0014AAC7 /* Braintree.swift */; };
+		160FF3181A18179100DD8546 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160FF3171A18179100DD8546 /* UIKit.framework */; };
+		160FF31A1A18179400DD8546 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160FF3191A18179400DD8546 /* Foundation.framework */; };
 		167864D91A180771003CC656 /* Braintree.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16D81C111A171A8E00E47410 /* Braintree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1687F40C1A16819C0014AAC7 /* Braintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687F40B1A16819C0014AAC7 /* Braintree.swift */; };
 		16A1A8AF1A1699B00051FABA /* AppDelegateIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A1A8AE1A1699B00051FABA /* AppDelegateIOS.swift */; };
@@ -24,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		160FF3151A18175500DD8546 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1687F3E61A16814E0014AAC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16A1A8A91A1699B00051FABA;
+			remoteInfo = "Braintree-Example-iOS";
+		};
 		167864D61A180756003CC656 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1687F3E61A16814E0014AAC7 /* Project object */;
@@ -66,6 +76,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		160FF3071A18129D00DD8546 /* Braintree-Swift-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Braintree-Swift-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		160FF30A1A18129D00DD8546 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		160FF30B1A18129D00DD8546 /* Braintree_Swift_iOS_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Braintree_Swift_iOS_Tests.swift; sourceTree = "<group>"; };
+		160FF3171A18179100DD8546 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		160FF3191A18179400DD8546 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		167864D41A1800CC003CC656 /* Braintree-Example-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Braintree-Example-iOS.entitlements"; path = "../Braintree-Example-iOS.entitlements"; sourceTree = "<group>"; };
 		1687F3EF1A16814E0014AAC7 /* Braintree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Braintree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1687F3F31A16814E0014AAC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,6 +105,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		160FF3041A18129D00DD8546 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				160FF31A1A18179400DD8546 /* Foundation.framework in Frameworks */,
+				160FF3181A18179100DD8546 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1687F3EB1A16814E0014AAC7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				167864D51A18074F003CC656 /* Braintree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,15 +145,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		160FF3081A18129D00DD8546 /* Braintree-Swift-iOS-Tests */ = {
+			isa = PBXGroup;
+			children = (
+				160FF30B1A18129D00DD8546 /* Braintree_Swift_iOS_Tests.swift */,
+				160FF3091A18129D00DD8546 /* Supporting Files */,
+			);
+			path = "Braintree-Swift-iOS-Tests";
+			sourceTree = "<group>";
+		};
+		160FF3091A18129D00DD8546 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				160FF30A1A18129D00DD8546 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1687F3E51A16814E0014AAC7 = {
 			isa = PBXGroup;
 			children = (
+				160FF3191A18179400DD8546 /* Foundation.framework */,
+				160FF3171A18179100DD8546 /* UIKit.framework */,
 				16D81BE11A17119100E47410 /* README.md */,
 				1687F40B1A16819C0014AAC7 /* Braintree.swift */,
 				1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */,
 				16A1A8AB1A1699B00051FABA /* Example-iOS */,
 				16D81BEA1A1718F700E47410 /* Example-OSX */,
 				1687F3F21A16814E0014AAC7 /* Supporting Files */,
+				160FF3081A18129D00DD8546 /* Braintree-Swift-iOS-Tests */,
 				1687F3F01A16814E0014AAC7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -142,6 +185,7 @@
 				16A1A8AA1A1699B00051FABA /* Braintree-Example-iOS.app */,
 				16D81BE91A1718F700E47410 /* Braintree-Example-OSX.app */,
 				16D81C111A171A8E00E47410 /* Braintree.framework */,
+				160FF3071A18129D00DD8546 /* Braintree-Swift-iOS-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,6 +262,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		160FF3061A18129D00DD8546 /* Braintree-Swift-iOS-Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 160FF3101A18129D00DD8546 /* Build configuration list for PBXNativeTarget "Braintree-Swift-iOS-Tests" */;
+			buildPhases = (
+				160FF3031A18129D00DD8546 /* Sources */,
+				160FF3041A18129D00DD8546 /* Frameworks */,
+				160FF3051A18129D00DD8546 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				160FF3161A18175500DD8546 /* PBXTargetDependency */,
+			);
+			name = "Braintree-Swift-iOS-Tests";
+			productName = "Braintree-Swift-iOS-Tests";
+			productReference = 160FF3071A18129D00DD8546 /* Braintree-Swift-iOS-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		1687F3EE1A16814E0014AAC7 /* Braintree-Swift-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift-iOS" */;
@@ -301,6 +363,10 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Braintree;
 				TargetAttributes = {
+					160FF3061A18129D00DD8546 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 16A1A8A91A1699B00051FABA;
+					};
 					1687F3EE1A16814E0014AAC7 = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = 43253H4X22;
@@ -345,11 +411,19 @@
 				16D81C101A171A8E00E47410 /* Braintree-Swift-OSX */,
 				16A1A8A91A1699B00051FABA /* Braintree-Example-iOS */,
 				16D81BE81A1718F700E47410 /* Braintree-Example-OSX */,
+				160FF3061A18129D00DD8546 /* Braintree-Swift-iOS-Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		160FF3051A18129D00DD8546 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1687F3ED1A16814E0014AAC7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -386,6 +460,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		160FF3031A18129D00DD8546 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				160FF3141A18139100DD8546 /* Braintree.swift in Sources */,
+				160FF30C1A18129D00DD8546 /* Braintree_Swift_iOS_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1687F3EA1A16814E0014AAC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -423,6 +506,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		160FF3161A18175500DD8546 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16A1A8A91A1699B00051FABA /* Braintree-Example-iOS */;
+			targetProxy = 160FF3151A18175500DD8546 /* PBXContainerItemProxy */;
+		};
 		167864D71A180756003CC656 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1687F3EE1A16814E0014AAC7 /* Braintree-Swift-iOS */;
@@ -463,6 +551,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		160FF3111A18129D00DD8546 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Braintree-Swift-iOS-Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Braintree-Example-iOS.app/Braintree-Example-iOS";
+			};
+			name = Debug;
+		};
+		160FF3121A18129D00DD8546 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Braintree-Swift-iOS-Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Braintree-Example-iOS.app/Braintree-Example-iOS";
+			};
+			name = Release;
+		};
 		1687F4031A16814E0014AAC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -602,7 +722,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Braintree-Example-iOS.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mickey Reiss (UKB88K5YM6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -621,7 +741,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Braintree-Example-iOS.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Example-iOS/Info.plist";
@@ -714,6 +834,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		160FF3101A18129D00DD8546 /* Build configuration list for PBXNativeTarget "Braintree-Swift-iOS-Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				160FF3111A18129D00DD8546 /* Debug */,
+				160FF3121A18129D00DD8546 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1687F3E91A16814E0014AAC7 /* Build configuration list for PBXProject "Braintree-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -23,8 +23,8 @@ braintree.tokenize(card) { result in
     case let .RequestError(message):
         println("Got an error: \(message)")
         XCPCaptureValue("Braintree tokenization request error", message)
-    case let .InternalError(message):
-        println("Got an internal error: \(message)")
+    case let .BraintreeError(message):
+        println("Got a Braintree error: \(message)")
         XCPCaptureValue("Braintree tokenization internal error", message)
     case let .PaymentMethodNonce(nonce):
         println("Got a nonce: \(nonce)")

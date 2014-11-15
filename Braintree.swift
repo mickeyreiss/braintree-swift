@@ -54,7 +54,7 @@ public class Braintree {
     public enum Response {
         case PaymentMethodNonce(nonce : String)
         case RequestError(message : String)
-        case InternalError(message : String)
+        case BraintreeError(message : String)
     }
 
     // MARK: - Vars
@@ -147,7 +147,7 @@ public class Braintree {
                     }
                 }
 
-                return completion(.InternalError(message: "Invalid Response Format"))
+                return completion(.BraintreeError(message: "Invalid Response Format"))
             })
         }
     }
@@ -254,6 +254,8 @@ internal class API {
     }
     
     private func error(code: Braintree.ErrorCode, message : String) -> NSError {
-        return NSError(domain: Braintree.ErrorDomain, code: Braintree.ErrorCode.InternalError.rawValue, userInfo: [ NSLocalizedDescriptionKey: "Invalid URL" ])
+        return NSError(domain: Braintree.ErrorDomain,
+            code: Braintree.ErrorCode.InternalError.rawValue,
+            userInfo: [ NSLocalizedDescriptionKey: "Invalid URL" ])
     }
 }

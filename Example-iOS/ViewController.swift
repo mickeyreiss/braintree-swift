@@ -11,7 +11,6 @@ class ViewController: UIViewController {
         delegate: nil,
         delegateQueue: NSOperationQueue.mainQueue())
     let baseURL = NSURL(string: "https://braintree-sample-merchant.herokuapp.com")
-
     @IBOutlet var nonceLabel : UILabel!
 
     override func viewDidLoad() {
@@ -69,7 +68,7 @@ class ViewController: UIViewController {
             switch result {
             case let .RequestError(message):
                 debug("Got an error: \(message)")
-            case let .InternalError(message):
+            case let .BraintreeError(message):
                 debug("Got an error: \(message)")
             case let .PaymentMethodNonce(nonce):
                 debug("Got a nonce: \(nonce)")

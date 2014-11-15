@@ -1,6 +1,8 @@
 import Foundation
 
+/// Braintree v.zero for iOS and OS X
 public struct Braintree {
+    /// The current version of the library
     public static let Version = "0.0.1"
 
     public static let ErrorDomain = "BraintreeSwiftErrorDomain"
@@ -10,19 +12,41 @@ public struct Braintree {
         case InternalError = 2
     }
 
+    /// The customer's raw payment method details for uploading to Braintree
+    ///
+    ///  - Card: Payment details for a credit or debit card
     public enum TokenizationRequest {
+        /// A payment method's expiration date
         public struct Expiration {
-            let expirationDate : String
-            
+            public let expirationDate : String
+
+            /// Initialize a TokenizationRequest based on an expiration date string
+            ///
+            ///
+            ///  :param: expirationDate the human-friendly expiration date, formatted "MM/YY", "MM/YYYY" or YYYY-MM
+            ///
+            ///  :returns: An expiration
             public init(expirationDate : String) {
                 self.expirationDate = expirationDate
             }
-            
+
+            /// Initialize a TokenizationRequest based on an expiration month and year
+            ///
+            ///  :param: expirationMonth expiration month 1-12
+            ///  :param: expirationYear  expiration year, such as 2014
+            ///
+            ///  :returns: An expiration
             public init(expirationMonth : Int, expirationYear : Int) {
                 expirationDate = "\(expirationMonth)/\(expirationYear)"
             }
         }
 
+        ///  A credit card tokenization request for credit cards, debit cards, etc.
+        ///
+        ///  :param: number     A Luhn-10 valid card number
+        ///  :param: expiration The card's expiration date
+        ///
+        ///  :returns: An object that can be tokenized with Braintree in exchange for a payment method nonce
         case Card(number : String, expiration : Expiration)
 
         internal func rawParameters() -> Dictionary<String, AnyObject> {
@@ -36,6 +60,11 @@ public struct Braintree {
         }
     }
 
+    /// A response from Braintree's API
+    ///
+    ///  - PaymentMethodNonce: A payment method nonce has successfully created for the given payment method details
+    ///  - RequestError:       A payment method nonce could not be created because of the request
+    ///  - BraintreeError:     A payment method nonce could not be created because of Braintree
     public enum TokenizationResponse {
         case PaymentMethodNonce(nonce : String)
         case RequestError(message : String)
@@ -44,16 +73,30 @@ public struct Braintree {
 
     // MARK: - Client
 
+    /// A client for interacting with Braintree's servers directly from your app
     public class Client {
+        /// A function that obtains a Client Token from your server whenever this library asks for one
+        ///
+        /// :note: A fresh client token should be generated and fetched each time this function is called.
         public typealias ClientTokenProvider = ((String?) -> (Void)) -> Void
 
         // MARK: - Public Interface
 
+        /// Initializes the Braintree Client
+        ///
+        /// :param: clientTokenProvider A function that can provide a fresh Client Token on demand
+        ///
+        /// :returns: A client that is ready to tokenize payment methods
         public required init(clientTokenProvider : ClientTokenProvider) {
             self.clientTokenProvider = clientTokenProvider
             refreshConfiguration()
         }
 
+        /// Tokenize a customer's raw payment details, generating a payment method nonce that
+        /// can safely be transmitted to your servers.
+        ///
+        /// :param: details    A tokenization request containing the raw payment details
+        /// :param: completion A closure that is called upon completion
         public func tokenize(details : TokenizationRequest, completion : (TokenizationResponse) -> (Void)) {
             withConfiguration() {
                 self.api.post("v1/payment_methods/credit_cards", parameters: details.rawParameters(), completion: { (responseObject, error) -> (Void) in

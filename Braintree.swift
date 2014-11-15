@@ -10,28 +10,19 @@ public struct Braintree {
         case InternalError = 2
     }
 
-    // MARK: - Types
-
-    public typealias ClientTokenProvider = ((String?) -> (Void)) -> Void
-
-    internal struct Configuration {
-        let clientApiBaseURL : NSURL
-        let authorizationFingerprint : String
-    }
-
-    public struct Expiration {
-        let expirationDate : String
-
-        public init(expirationDate : String) {
-            self.expirationDate = expirationDate
+    public enum TokenizationRequest {
+        public struct Expiration {
+            let expirationDate : String
+            
+            public init(expirationDate : String) {
+                self.expirationDate = expirationDate
+            }
+            
+            public init(expirationMonth : Int, expirationYear : Int) {
+                expirationDate = "\(expirationMonth)/\(expirationYear)"
+            }
         }
 
-        public init(expirationMonth : Int, expirationYear : Int) {
-            expirationDate = "\(expirationMonth)/\(expirationYear)"
-        }
-    }
-
-    public enum PaymentMethodDetails {
         case Card(number : String, expiration : Expiration)
 
         internal func rawParameters() -> Dictionary<String, AnyObject> {
@@ -45,7 +36,7 @@ public struct Braintree {
         }
     }
 
-    public enum Response {
+    public enum TokenizationResponse {
         case PaymentMethodNonce(nonce : String)
         case RequestError(message : String)
         case BraintreeError(message : String)
@@ -54,6 +45,38 @@ public struct Braintree {
     // MARK: - Client
 
     public class Client {
+        public typealias ClientTokenProvider = ((String?) -> (Void)) -> Void
+
+        // MARK: - Public Interface
+
+        public required init(clientTokenProvider : ClientTokenProvider) {
+            self.clientTokenProvider = clientTokenProvider
+            refreshConfiguration()
+        }
+
+        public func tokenize(details : TokenizationRequest, completion : (TokenizationResponse) -> (Void)) {
+            withConfiguration() {
+                self.api.post("v1/payment_methods/credit_cards", parameters: details.rawParameters(), completion: { (responseObject, error) -> (Void) in
+                    if let error : NSError = error {
+                        return completion(.RequestError(message: error.localizedDescription))
+                    }
+
+                    if let responseObject = responseObject as? [String : AnyObject] {
+                        if let creditCardsArray = responseObject["creditCards"] as? [AnyObject] {
+                            if let creditCardObject = creditCardsArray[0] as? [String : AnyObject] {
+                                if let nonce = creditCardObject["nonce"] as? String {
+                                    return completion(.PaymentMethodNonce(nonce: nonce))
+                                }
+                            }
+                        }
+                    }
+
+                    return completion(.BraintreeError(message: "Invalid Response Format"))
+                })
+            }
+        }
+
+        // MARK: Internal State
 
         private let clientTokenProvider : ClientTokenProvider
 
@@ -72,16 +95,10 @@ public struct Braintree {
 
         private var withConfigurationQueue : [(Void) -> (Void)] = []
 
-        let api : API = API()
+        private let api : API = API()
 
-        // MARK: - Initializer
+        // MARK: Internal Helpers
 
-        public required init(clientTokenProvider : ClientTokenProvider) {
-            self.clientTokenProvider = clientTokenProvider
-            refreshConfiguration()
-        }
-
-        // Refresh the client configuration based on the client token
         private func refreshConfiguration() {
             self.clientTokenProvider() { [weak self] clientToken in
                 if let clientToken = clientToken {
@@ -125,28 +142,13 @@ public struct Braintree {
         }
 
         // MARK: - Payment Method Tokenization
+    }
 
-        public func tokenize(details : PaymentMethodDetails, completion : (Response) -> (Void)) {
-            withConfiguration() {
-                self.api.post("v1/payment_methods/credit_cards", parameters: details.rawParameters(), completion: { (responseObject, error) -> (Void) in
-                    if let error : NSError = error {
-                        return completion(.RequestError(message: error.localizedDescription))
-                    }
+    // MARK: - Types
 
-                    if let responseObject = responseObject as? [String : AnyObject] {
-                        if let creditCardsArray = responseObject["creditCards"] as? [AnyObject] {
-                            if let creditCardObject = creditCardsArray[0] as? [String : AnyObject] {
-                                if let nonce = creditCardObject["nonce"] as? String {
-                                    return completion(.PaymentMethodNonce(nonce: nonce))
-                                }
-                            }
-                        }
-                    }
-
-                    return completion(.BraintreeError(message: "Invalid Response Format"))
-                })
-            }
-        }
+    internal struct Configuration {
+        let clientApiBaseURL : NSURL
+        let authorizationFingerprint : String
     }
 
     // MARK: - API Client

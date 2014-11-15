@@ -19,7 +19,7 @@ class ViewControllerOSX : NSViewController {
     let baseURL = NSURL(string: "https://braintree-sample-merchant.herokuapp.com/")
 
     @IBAction func demonstrateTokenization(sender: NSButton) {
-        let clientTokenProvider : Braintree.ClientTokenProvider = { [weak self] completion in
+        let clientTokenProvider : Braintree.Client.ClientTokenProvider = { [weak self] completion in
             if let baseURL = self?.baseURL {
                 if let URL : NSURL = NSURL(string: "/client_token", relativeToURL: baseURL) {
                     if let session = self?.session {
@@ -44,7 +44,7 @@ class ViewControllerOSX : NSViewController {
 
         let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
 
-        let card = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: Braintree.Expiration(expirationMonth: 12, expirationYear: 2015))
+        let card = Braintree.TokenizationRequest.Card(number: "4111111111111111", expiration: Braintree.TokenizationRequest.Expiration(expirationMonth: 12, expirationYear: 2015))
 
         nonceLabel.alphaValue = 0.0
         braintree.tokenize(card, completion: { [weak self] (response) -> (Void) in

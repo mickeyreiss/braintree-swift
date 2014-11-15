@@ -20,7 +20,7 @@ class ViewControllerIOS: UIViewController {
 
     @IBAction
     func demonstrateTokenization() {
-        let clientTokenProvider : Braintree.ClientTokenProvider = { [weak self] completion in
+        let clientTokenProvider : Braintree.Client.ClientTokenProvider = { [weak self] completion in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             if let baseURL = self?.baseURL {
                 if let URL : NSURL = NSURL(string: "/client_token", relativeToURL: baseURL) {
@@ -54,10 +54,10 @@ class ViewControllerIOS: UIViewController {
         debug("Initializing Braintree v\(Braintree.Version)")
         let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
 
-        let expiration = Braintree.Expiration(expirationMonth: 12, expirationYear: 2015)
+        let expiration = Braintree.TokenizationRequest.Expiration(expirationMonth: 12, expirationYear: 2015)
 
         // Initialize a Tokenizable, such as CardDetails, based on user input.
-        let card = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: expiration)
+        let card = Braintree.TokenizationRequest.Card(number: "4111111111111111", expiration: expiration)
 
         // Send the raw card details directly to Braintree in exchange for a payment method nonce.
         self.nonceLabel.text = nil

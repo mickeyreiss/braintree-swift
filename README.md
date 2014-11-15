@@ -7,9 +7,18 @@ A client Braintree library for Swift apps.
 * Tokenize credit cards to create `payment_method_nonces`
 * Vault credit cards from raw credit card details
 
+## Integration
+
+* Add this repo as a git submodule
+* Add Braintree to your app target:
+  * Either add `Braintree.swift` to your app's compiled sources;
+  * Or add `Braintree-Swift.xcodeproj` to your Xcode Project
+    * Add `Braintree-Swift.framework` as a `Target Dependency`;
+    * and add `Braintree-Swift.framework` under a `Link Binary with Libraries`
+
 ## Usage
 
-See [Braintree Playground](BraintreeUsage.playground).
+See [Braintree Playground](BraintreeUsage.playground/section-1.swift).
 
 ## Minimum Requirements
 

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1687F3F51A16814E0014AAC7 /* braintree-swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1687F3F41A16814E0014AAC7 /* braintree-swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1687F40C1A16819C0014AAC7 /* Braintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687F40B1A16819C0014AAC7 /* Braintree.swift */; };
 		16A1A8AF1A1699B00051FABA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A1A8AE1A1699B00051FABA /* AppDelegate.swift */; };
 		16A1A8B11A1699B00051FABA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A1A8B01A1699B00051FABA /* ViewController.swift */; };
@@ -18,19 +17,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		16A1A8CC1A1699C30051FABA /* PBXContainerItemProxy */ = {
+		16D81BE31A17167900E47410 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1687F3E61A16814E0014AAC7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1687F3EE1A16814E0014AAC7;
-			remoteInfo = "braintree-swift";
+			remoteInfo = "Braintree-Swift";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1687F3EF1A16814E0014AAC7 /* Braintree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Braintree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1687F3F31A16814E0014AAC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1687F3F41A16814E0014AAC7 /* braintree-swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "braintree-swift.h"; sourceTree = "<group>"; };
 		1687F40B1A16819C0014AAC7 /* Braintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Braintree.swift; sourceTree = "<group>"; };
 		1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BraintreeUsage.playground; sourceTree = SOURCE_ROOT; };
 		16A1A8AA1A1699B00051FABA /* BraintreeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraintreeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,9 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				16D81BE11A17119100E47410 /* README.md */,
+				1687F40B1A16819C0014AAC7 /* Braintree.swift */,
 				1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */,
-				1687F3F11A16814E0014AAC7 /* Braintree */,
-				16A1A8AB1A1699B00051FABA /* Example */,
+				16A1A8AB1A1699B00051FABA /* Example-iOS */,
+				1687F3F21A16814E0014AAC7 /* Supporting Files */,
 				1687F3F01A16814E0014AAC7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,26 +81,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1687F3F11A16814E0014AAC7 /* Braintree */ = {
-			isa = PBXGroup;
-			children = (
-				1687F40B1A16819C0014AAC7 /* Braintree.swift */,
-				1687F3F41A16814E0014AAC7 /* braintree-swift.h */,
-				1687F3F21A16814E0014AAC7 /* Supporting Files */,
-			);
-			name = Braintree;
-			path = "braintree-swift";
-			sourceTree = "<group>";
-		};
 		1687F3F21A16814E0014AAC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				1687F3F31A16814E0014AAC7 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			path = .;
 			sourceTree = "<group>";
 		};
-		16A1A8AB1A1699B00051FABA /* Example */ = {
+		16A1A8AB1A1699B00051FABA /* Example-iOS */ = {
 			isa = PBXGroup;
 			children = (
 				16A1A8AE1A1699B00051FABA /* AppDelegate.swift */,
@@ -111,8 +100,7 @@
 				16A1A8B71A1699B00051FABA /* LaunchScreen.xib */,
 				16A1A8AC1A1699B00051FABA /* Supporting Files */,
 			);
-			name = Example;
-			path = BraintreeExample;
+			path = "Example-iOS";
 			sourceTree = "<group>";
 		};
 		16A1A8AC1A1699B00051FABA /* Supporting Files */ = {
@@ -130,16 +118,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1687F3F51A16814E0014AAC7 /* braintree-swift.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1687F3EE1A16814E0014AAC7 /* braintree-swift */ = {
+		1687F3EE1A16814E0014AAC7 /* Braintree-Swift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "braintree-swift" */;
+			buildConfigurationList = 1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift" */;
 			buildPhases = (
 				1687F3EA1A16814E0014AAC7 /* Sources */,
 				1687F3EB1A16814E0014AAC7 /* Frameworks */,
@@ -150,7 +137,7 @@
 			);
 			dependencies = (
 			);
-			name = "braintree-swift";
+			name = "Braintree-Swift";
 			productName = "braintree-swift";
 			productReference = 1687F3EF1A16814E0014AAC7 /* Braintree.framework */;
 			productType = "com.apple.product-type.framework";
@@ -166,7 +153,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				16A1A8CD1A1699C30051FABA /* PBXTargetDependency */,
+				16D81BE41A17167900E47410 /* PBXTargetDependency */,
 			);
 			name = BraintreeExample;
 			productName = BraintreeExample;
@@ -190,7 +177,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1687F3E91A16814E0014AAC7 /* Build configuration list for PBXProject "braintree-swift" */;
+			buildConfigurationList = 1687F3E91A16814E0014AAC7 /* Build configuration list for PBXProject "Braintree-Swift" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -203,7 +190,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1687F3EE1A16814E0014AAC7 /* braintree-swift */,
+				1687F3EE1A16814E0014AAC7 /* Braintree-Swift */,
 				16A1A8A91A1699B00051FABA /* BraintreeExample */,
 			);
 		};
@@ -250,10 +237,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		16A1A8CD1A1699C30051FABA /* PBXTargetDependency */ = {
+		16D81BE41A17167900E47410 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1687F3EE1A16814E0014AAC7 /* braintree-swift */;
-			targetProxy = 16A1A8CC1A1699C30051FABA /* PBXContainerItemProxy */;
+			target = 1687F3EE1A16814E0014AAC7 /* Braintree-Swift */;
+			targetProxy = 16D81BE31A17167900E47410 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -370,7 +357,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "braintree-swift/Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = Braintree;
@@ -387,7 +374,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "braintree-swift/Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = Braintree;
@@ -403,7 +390,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = BraintreeExample/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -413,7 +400,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = BraintreeExample/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -422,7 +409,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1687F3E91A16814E0014AAC7 /* Build configuration list for PBXProject "braintree-swift" */ = {
+		1687F3E91A16814E0014AAC7 /* Build configuration list for PBXProject "Braintree-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1687F4031A16814E0014AAC7 /* Debug */,
@@ -431,7 +418,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "braintree-swift" */ = {
+		1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1687F4061A16814E0014AAC7 /* Debug */,

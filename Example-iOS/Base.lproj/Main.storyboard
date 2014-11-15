@@ -28,20 +28,33 @@
                                 <rect key="frame" x="16" y="534" width="568" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKu-k9-pOn">
-                                        <rect key="frame" x="20" y="0.0" width="528" height="30"/>
+                                        <rect key="frame" x="20" y="0.0" width="260" height="30"/>
                                         <state key="normal" title="Tokenize Test Visa">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="demonstrateTokenization" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FaX-B5-Bou"/>
+                                            <action selector="demonstrateCardTokenization" destination="vXZ-lx-hvc" eventType="touchUpInside" id="bub-Iv-can"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jMq-qd-gf4">
+                                        <rect key="frame" x="288" y="0.0" width="260" height="30"/>
+                                        <state key="normal" title="Tokenize Apple Pay">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="demonstrateApplePayTokenization" destination="vXZ-lx-hvc" eventType="touchUpInside" id="zZT-h6-31i"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="jMq-qd-gf4" firstAttribute="top" secondItem="s5v-xg-EiU" secondAttribute="top" id="0An-ey-wq7"/>
+                                    <constraint firstItem="rKu-k9-pOn" firstAttribute="width" secondItem="jMq-qd-gf4" secondAttribute="width" id="9ZH-gG-qYQ"/>
                                     <constraint firstItem="rKu-k9-pOn" firstAttribute="leading" secondItem="s5v-xg-EiU" secondAttribute="leading" constant="20" symbolic="YES" id="KaH-gE-E6Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="jMq-qd-gf4" secondAttribute="trailing" constant="20" symbolic="YES" id="MOC-C1-uKI"/>
                                     <constraint firstItem="rKu-k9-pOn" firstAttribute="top" secondItem="s5v-xg-EiU" secondAttribute="top" id="SZe-Y2-pRZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="rKu-k9-pOn" secondAttribute="trailing" constant="20" symbolic="YES" id="dvA-wG-KKc"/>
+                                    <constraint firstAttribute="bottom" secondItem="jMq-qd-gf4" secondAttribute="bottom" id="XKO-HY-fuG"/>
+                                    <constraint firstItem="jMq-qd-gf4" firstAttribute="leading" secondItem="rKu-k9-pOn" secondAttribute="trailing" constant="8" symbolic="YES" id="tQ9-gZ-8OI"/>
                                     <constraint firstAttribute="bottom" secondItem="rKu-k9-pOn" secondAttribute="bottom" id="zDr-MY-TdS"/>
                                 </constraints>
                             </view>

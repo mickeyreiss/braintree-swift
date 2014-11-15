@@ -5,6 +5,7 @@ Braintree v.zero for Swift apps on iOS and OS X.
 ## Features
 
 * Tokenize credit cards to create `payment_method_nonces`
+* Tokenize Apple Pay `PKPayment`s to create `payment_method_nonces` (iOS only)
 * Vault credit cards from raw credit card details
 
 ## Integration
@@ -54,7 +55,7 @@ Read [Braintree's developer documentation](https://developers.braintreepayments.
 
 * [Security] SSL Certificate Pinning
 * [Functionality] Support for credit card verification data, like CVV or Postal Code
-* [Functionality] Support for alternative payment methods, like PayPal and Venmo
+* [Functionality] Support for some alternative payment methods, like PayPal and Venmo
 * [UI] UI Bindings
 * [UI] Drop In
 

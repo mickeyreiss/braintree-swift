@@ -1,5 +1,6 @@
 import Braintree
 import XCPlayground
+import PassKit
 
 XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
 
@@ -20,6 +21,24 @@ let card = Braintree.TokenizationRequest.Card(number: "4111111111111111", expira
 
 // Send the raw card details directly to Braintree in exchange for a payment method nonce.
 braintree.tokenize(card) { result in
+    switch result {
+    case let .RequestError(message):
+        println("Got an error: \(message)")
+        XCPCaptureValue("Braintree tokenization request error", message)
+    case let .BraintreeError(message):
+        println("Got a Braintree error: \(message)")
+        XCPCaptureValue("Braintree tokenization internal error", message)
+    case let .PaymentMethodNonce(nonce):
+        println("Got a nonce: \(nonce)")
+        XCPCaptureValue("Braintree tokenization nonce", nonce)
+    }
+}
+
+// Example Apple Pay payment
+
+let payment : PKPayment = PKPayment()
+
+braintree.tokenize(Braintree.TokenizationRequest.ApplePay(payment: payment)) { result in
     switch result {
     case let .RequestError(message):
         println("Got an error: \(message)")

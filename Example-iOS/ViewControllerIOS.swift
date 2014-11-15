@@ -1,14 +1,13 @@
 import UIKit
 import Braintree
+import PassKit
 
 func debug(message : String) {
     print("[Example] ")
     println(message)
 }
 
-class ViewControllerIOS: UIViewController {
-
-
+class ViewControllerIOS: UIViewController, PKPaymentAuthorizationViewControllerDelegate {
     let session = NSURLSession(configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
         delegate: nil,
         delegateQueue: NSOperationQueue.mainQueue())
@@ -20,12 +19,17 @@ class ViewControllerIOS: UIViewController {
         nonceLabel.alpha = 0.0
     }
 
-    @IBAction
-    func demonstrateTokenization() {
+    var braintree : Braintree.Client {
         // Initialize a Braintree instance with the client token handler.
         debug("Initializing Braintree v\(Braintree.Version)")
-        let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
+        return Braintree.Client(clientTokenProvider: clientTokenProvider)
+    }
 
+
+    // MARK: Tokenization Demonstration
+
+    @IBAction
+    func demonstrateCardTokenization() {
         let expiration = Braintree.TokenizationRequest.Expiration(expirationMonth: 12, expirationYear: 2015)
 
         // Initialize a Tokenizable, such as CardDetails, based on user input.
@@ -37,6 +41,39 @@ class ViewControllerIOS: UIViewController {
 
         debug("Tokenizing Test Visa")
         braintree.tokenize(card, handleTokenization)
+    }
+
+    @IBAction
+    func demonstrateApplePayTokenization() {
+        let supportedNetworks = [ PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa ]
+
+        if PKPaymentAuthorizationViewController.canMakePayments() == false {
+            let alert = UIAlertController(title: "Apple Pay is not available", message: nil, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            return self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+        if PKPaymentAuthorizationViewController.canMakePaymentsUsingNetworks(supportedNetworks) == false {
+            let alert = UIAlertController(title: "No Apple Pay payment methods available", message: nil, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            return self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+        let request = PKPaymentRequest()
+        request.merchantIdentifier = "merchant.com.braintreepayments.dev-dcopeland"
+        request.currencyCode = "USD"
+        request.countryCode = "US"
+        request.supportedNetworks = supportedNetworks
+        request.merchantCapabilities = .Capability3DS
+        request.paymentSummaryItems = [
+            PKPaymentSummaryItem(label: "One Dollar Item", amount: NSDecimalNumber(string: "1")),
+            PKPaymentSummaryItem(label: "COMPANY", amount: NSDecimalNumber(string: "1"))
+        ]
+
+        debug("Presenting Apple Pay view controller")
+        let authorizationViewController = PKPaymentAuthorizationViewController(paymentRequest: request)
+        authorizationViewController.delegate = self
+        self.presentViewController(authorizationViewController, animated: true, completion: nil)
     }
 
     lazy var handleTokenization : (Braintree.TokenizationResponse) -> (Void) = { [weak self] result in
@@ -55,7 +92,8 @@ class ViewControllerIOS: UIViewController {
         }
     }
 
-    // Obtain a client token from your server in this block.
+    // MARK: Braintree Client Token generation
+
     lazy var clientTokenProvider : Braintree.Client.ClientTokenProvider = { [weak self] completion in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if let baseURL = self?.baseURL {
@@ -82,5 +120,29 @@ class ViewControllerIOS: UIViewController {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             completion(nil)
         }
+    }
+
+    // MARK: Apple Pay Tokenization
+
+    func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController!, didAuthorizePayment payment: PKPayment!, completion: ((PKPaymentAuthorizationStatus) -> Void)!) {
+        controller
+        debug("Apple Pay authorized a payment: \(payment)")
+        debug("Tokenizing PKPayment")
+        braintree.tokenize(.ApplePay(payment: payment)) { response in
+            self.handleTokenization(response)
+            switch response {
+            case let .BraintreeError(message: _):
+                completion(.Failure)
+            case let .RequestError(message: _, fieldErrors: _):
+                completion(.Failure)
+            case let .PaymentMethodNonce(nonce: _):
+                completion(.Success)
+            }
+        }
+    }
+
+    func paymentAuthorizationViewControllerDidFinish(controller: PKPaymentAuthorizationViewController!) {
+        debug("Dismissing Apple Pay view controller")
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

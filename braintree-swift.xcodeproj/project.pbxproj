@@ -66,10 +66,10 @@
 			isa = PBXGroup;
 			children = (
 				16D81BE11A17119100E47410 /* README.md */,
-				1687F3F11A16814E0014AAC7 /* braintree-swift */,
-				16A1A8AB1A1699B00051FABA /* BraintreeExample */,
-				1687F3F01A16814E0014AAC7 /* Products */,
 				1687F40D1A1683130014AAC7 /* BraintreeUsage.playground */,
+				1687F3F11A16814E0014AAC7 /* Braintree */,
+				16A1A8AB1A1699B00051FABA /* Example */,
+				1687F3F01A16814E0014AAC7 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,13 +82,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1687F3F11A16814E0014AAC7 /* braintree-swift */ = {
+		1687F3F11A16814E0014AAC7 /* Braintree */ = {
 			isa = PBXGroup;
 			children = (
 				1687F40B1A16819C0014AAC7 /* Braintree.swift */,
 				1687F3F41A16814E0014AAC7 /* braintree-swift.h */,
 				1687F3F21A16814E0014AAC7 /* Supporting Files */,
 			);
+			name = Braintree;
 			path = "braintree-swift";
 			sourceTree = "<group>";
 		};
@@ -100,7 +101,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		16A1A8AB1A1699B00051FABA /* BraintreeExample */ = {
+		16A1A8AB1A1699B00051FABA /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				16A1A8AE1A1699B00051FABA /* AppDelegate.swift */,
@@ -110,6 +111,7 @@
 				16A1A8B71A1699B00051FABA /* LaunchScreen.xib */,
 				16A1A8AC1A1699B00051FABA /* Supporting Files */,
 			);
+			name = Example;
 			path = BraintreeExample;
 			sourceTree = "<group>";
 		};

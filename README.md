@@ -23,6 +23,14 @@ See [Braintree Playground](BraintreeUsage.playground).
 
 :warning: Under Construction :warning: - This library is not officially supported by Braintree; use it at your own risk. [braintree_ios](https://github.com/braintre/braintree_ios), which is written in Objective-C, is fully supported and interoperable with Swift apps.
 
+### Missing Features
+
+* [Security] SSL Certificate Pinning
+* [Functionality] Support for credit card verification data, like CVV or Postal Code
+* [Functionality] Support for alternative payment methods, like PayPal and Venmo
+* [UI] UI Bindings 
+* [UI] Drop In
+
 ## License
 
 Copyright (c) 2014 Braintree, a division of PayPal, Inc.

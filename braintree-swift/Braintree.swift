@@ -169,8 +169,6 @@ internal class API {
             "Accept-Language": "en_US"
         ]
 
-        // TODO SSL Certificate Pinning
-
         return NSURLSession(configuration: configuration, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
     }
 

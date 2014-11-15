@@ -53,20 +53,19 @@ class ViewController: UIViewController {
 
         // Initialize a Braintree instance with the client token handler.
         debug("Initializing Braintree v\(Braintree.Version)")
-        let b = Braintree(clientTokenProvider: clientTokenProvider)
+        let braintree = Braintree(clientTokenProvider: clientTokenProvider)
 
-        let e = Braintree.Expiration(expirationMonth: 12, expirationYear: 2015)
+        let expiration = Braintree.Expiration(expirationMonth: 12, expirationYear: 2015)
 
         // Initialize a Tokenizable, such as CardDetails, based on user input.
-        // TODO: Add verification data, like CVV or Postal Code
-        let c = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: e)
+        let card = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: expiration)
 
         // Send the raw card details directly to Braintree in exchange for a payment method nonce.
         self.nonceLabel.text = nil
         self.nonceLabel.alpha = 0.0
 
         debug("Tokenizing Test Visa")
-        b.tokenize(c) { [weak self] result in
+        braintree.tokenize(card) { [weak self] result in
             switch result {
             case let .RequestError(message):
                 debug("Got an error: \(message)")

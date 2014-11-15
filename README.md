@@ -22,8 +22,9 @@ See [Braintree Playground](BraintreeUsage.playground/section-1.swift).
 
 ## Minimum Requirements
 
-* Xcode 6.1 & iOS 8.1 SDK development environment
-* iOS 8+
+* Xcode 6.1
+* iOS 8.1 or OS X 10.10 Base SDK
+* iOS 8.0-8.1 or OS X 10.10 Deployment Target
 * Braintree server-side integration, using the latest client libraries as of 11/14/14
   * An authenticated endpoint on your server that generates `client_tokens`
   * Another authenticated endpoint on your server that accepts `payment_method_nonce`s
@@ -37,7 +38,7 @@ See [Braintree Playground](BraintreeUsage.playground/section-1.swift).
 * [Security] SSL Certificate Pinning
 * [Functionality] Support for credit card verification data, like CVV or Postal Code
 * [Functionality] Support for alternative payment methods, like PayPal and Venmo
-* [UI] UI Bindings 
+* [UI] UI Bindings
 * [UI] Drop In
 
 ## License

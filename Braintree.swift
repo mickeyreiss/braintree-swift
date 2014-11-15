@@ -228,13 +228,12 @@ public struct Braintree {
                 "Accept-Language": "en_US"
             ]
 
-            return NSURLSession(configuration: configuration, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+            return NSURLSession(configuration: configuration,
+                delegate: SecurityEvaluator(),
+                delegateQueue: NSOperationQueue.mainQueue())
         }
 
         var baseURL : NSURL?
-
-        required init() {
-        }
 
         func post(path : String, parameters : Dictionary<String, AnyObject>?, completion : (Response) -> (Void)) {
             request("post", path: path, parameters: parameters, completion: completion)
@@ -270,14 +269,14 @@ public struct Braintree {
                         print("[Braintree] API Request: ")
                         debugPrintln(request)
                         session.dataTaskWithRequest(request) { (data, response, error) -> Void in
-                            let response = response as NSHTTPURLResponse!
-                            let broxyId = response.allHeaderFields["X-BroxyId"] as String? ?? ""
-                            println("[Braintree] API Response [\(broxyId)]: ")
-                            debugPrintln(response)
                             if let error = error {
                                 return completion(.Error(error: error))
                             }
 
+                            let response = response as NSHTTPURLResponse!
+                            let broxyId = response.allHeaderFields["X-BroxyId"] as String? ?? ""
+                            println("[Braintree] API Response [\(broxyId)]: ")
+                            debugPrintln(response)
                             var responseObject : Dictionary<String, AnyObject>!
 
                             if data.length > 0 && startsWith(response.allHeaderFields["Content-Type"] as String, "application/json") {
@@ -295,6 +294,57 @@ public struct Braintree {
                             }
                             }.resume()
                 }
+            }
+        }
+
+        internal class SecurityEvaluator : NSObject, NSURLSessionDelegate {
+            func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
+                if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+                    if let serverTrust = challenge.protectionSpace.serverTrust {
+                        if evaluateServerTrust(serverTrust, forDomain: challenge.protectionSpace.host) {
+                            completionHandler(.UseCredential, NSURLCredential(forTrust: serverTrust))
+                        }
+                    }
+                }
+                completionHandler(.RejectProtectionSpace, nil);
+            }
+
+            var pinnedCertificates : [CFDataRef] = []
+            
+            func evaluateServerTrust(serverTrust : SecTrustRef, forDomain domain : String) -> Bool {
+                let domain :CFStringRef = domain
+                let policies = [SecPolicyCreateSSL(1, domain).takeRetainedValue()]
+                SecTrustSetPolicies(serverTrust, policies)
+                let certificateCount = SecTrustGetCertificateCount(serverTrust);
+                if certificateCount == 0 {
+                    return false
+                }
+
+                let serverRootCertificate = SecCertificateCopyData(SecTrustGetCertificateAtIndex(serverTrust, certificateCount-1).takeRetainedValue()).takeRetainedValue()
+
+                var pinnedCertificates : [SecCertificateRef] = [];
+                for certificateData in self.pinnedCertificates {
+                    pinnedCertificates.append(SecCertificateCreateWithData(nil, certificateData).takeRetainedValue())
+                }
+                SecTrustSetAnchorCertificates(serverTrust, pinnedCertificates);
+
+                if serverTrustIsValid(serverTrust) {
+                    return false
+                }
+
+                for pinnedCertificate in self.pinnedCertificates {
+                    if pinnedCertificate == serverRootCertificate {
+                        return true
+                    }
+                }
+
+                return false
+            }
+
+            func serverTrustIsValid(serverTrust : SecTrustRef) -> Bool {
+                var result : SecTrustResultType = UInt32(kSecTrustResultOtherError)
+                let errorCode : OSStatus = SecTrustEvaluate(serverTrust, &result);
+                return (errorCode != 0) && (Int(result) == kSecTrustResultUnspecified || Int(result) == kSecTrustResultProceed);
             }
         }
     }

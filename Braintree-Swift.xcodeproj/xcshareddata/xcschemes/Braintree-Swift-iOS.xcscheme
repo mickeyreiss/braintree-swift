@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "16D81C101A171A8E00E47410"
+               BlueprintIdentifier = "1687F3EE1A16814E0014AAC7"
                BuildableName = "Braintree.framework"
-               BlueprintName = "Braintre-Swift-OSX"
+               BlueprintName = "Braintree-Swift-iOS"
                ReferencedContainer = "container:Braintree-Swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1687F3EE1A16814E0014AAC7"
+            BuildableName = "Braintree.framework"
+            BlueprintName = "Braintree-Swift-iOS"
+            ReferencedContainer = "container:Braintree-Swift.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -42,9 +51,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "16D81C101A171A8E00E47410"
+            BlueprintIdentifier = "1687F3EE1A16814E0014AAC7"
             BuildableName = "Braintree.framework"
-            BlueprintName = "Braintre-Swift-OSX"
+            BlueprintName = "Braintree-Swift-iOS"
             ReferencedContainer = "container:Braintree-Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,9 +69,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "16D81C101A171A8E00E47410"
+            BlueprintIdentifier = "1687F3EE1A16814E0014AAC7"
             BuildableName = "Braintree.framework"
-            BlueprintName = "Braintre-Swift-OSX"
+            BlueprintName = "Braintree-Swift-iOS"
             ReferencedContainer = "container:Braintree-Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

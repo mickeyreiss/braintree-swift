@@ -218,9 +218,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1687F3EE1A16814E0014AAC7 /* Braintree-Swift */ = {
+		1687F3EE1A16814E0014AAC7 /* Braintree-Swift-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift" */;
+			buildConfigurationList = 1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift-iOS" */;
 			buildPhases = (
 				1687F3EA1A16814E0014AAC7 /* Sources */,
 				1687F3EB1A16814E0014AAC7 /* Frameworks */,
@@ -231,7 +231,7 @@
 			);
 			dependencies = (
 			);
-			name = "Braintree-Swift";
+			name = "Braintree-Swift-iOS";
 			productName = "braintree-swift";
 			productReference = 1687F3EF1A16814E0014AAC7 /* Braintree.framework */;
 			productType = "com.apple.product-type.framework";
@@ -274,9 +274,9 @@
 			productReference = 16D81BE91A1718F700E47410 /* Braintree-Example-OSX.app */;
 			productType = "com.apple.product-type.application";
 		};
-		16D81C101A171A8E00E47410 /* Braintre-Swift-OSX */ = {
+		16D81C101A171A8E00E47410 /* Braintree-Swift-OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16D81C2A1A171A8F00E47410 /* Build configuration list for PBXNativeTarget "Braintre-Swift-OSX" */;
+			buildConfigurationList = 16D81C2A1A171A8F00E47410 /* Build configuration list for PBXNativeTarget "Braintree-Swift-OSX" */;
 			buildPhases = (
 				16D81C0C1A171A8E00E47410 /* Sources */,
 				16D81C0D1A171A8E00E47410 /* Frameworks */,
@@ -287,7 +287,7 @@
 			);
 			dependencies = (
 			);
-			name = "Braintre-Swift-OSX";
+			name = "Braintree-Swift-OSX";
 			productName = "Braintre-Swift-OSX";
 			productReference = 16D81C111A171A8E00E47410 /* Braintree.framework */;
 			productType = "com.apple.product-type.framework";
@@ -341,8 +341,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1687F3EE1A16814E0014AAC7 /* Braintree-Swift */,
-				16D81C101A171A8E00E47410 /* Braintre-Swift-OSX */,
+				1687F3EE1A16814E0014AAC7 /* Braintree-Swift-iOS */,
+				16D81C101A171A8E00E47410 /* Braintree-Swift-OSX */,
 				16A1A8A91A1699B00051FABA /* Braintree-Example-iOS */,
 				16D81BE81A1718F700E47410 /* Braintree-Example-OSX */,
 			);
@@ -425,12 +425,12 @@
 /* Begin PBXTargetDependency section */
 		167864D71A180756003CC656 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1687F3EE1A16814E0014AAC7 /* Braintree-Swift */;
+			target = 1687F3EE1A16814E0014AAC7 /* Braintree-Swift-iOS */;
 			targetProxy = 167864D61A180756003CC656 /* PBXContainerItemProxy */;
 		};
 		16D81C331A171B3500E47410 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16D81C101A171A8E00E47410 /* Braintre-Swift-OSX */;
+			target = 16D81C101A171A8E00E47410 /* Braintree-Swift-OSX */;
 			targetProxy = 16D81C321A171B3500E47410 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -723,7 +723,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift" */ = {
+		1687F4051A16814E0014AAC7 /* Build configuration list for PBXNativeTarget "Braintree-Swift-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1687F4061A16814E0014AAC7 /* Debug */,
@@ -750,7 +750,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16D81C2A1A171A8F00E47410 /* Build configuration list for PBXNativeTarget "Braintre-Swift-OSX" */ = {
+		16D81C2A1A171A8F00E47410 /* Build configuration list for PBXNativeTarget "Braintree-Swift-OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16D81C2B1A171A8F00E47410 /* Debug */,

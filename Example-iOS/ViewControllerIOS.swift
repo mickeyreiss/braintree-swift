@@ -52,7 +52,7 @@ class ViewControllerIOS: UIViewController {
 
         // Initialize a Braintree instance with the client token handler.
         debug("Initializing Braintree v\(Braintree.Version)")
-        let braintree = Braintree(clientTokenProvider: clientTokenProvider)
+        let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
 
         let expiration = Braintree.Expiration(expirationMonth: 12, expirationYear: 2015)
 

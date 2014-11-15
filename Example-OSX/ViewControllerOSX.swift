@@ -9,7 +9,7 @@
 import Cocoa
 import Braintree
 
-class ViewControllerOSX: NSViewController {
+class ViewControllerOSX : NSViewController {
     @IBOutlet var nonceLabel : NSTextField!
 
     let session = NSURLSession(configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
@@ -42,7 +42,7 @@ class ViewControllerOSX: NSViewController {
             }
         }
 
-        let braintree = Braintree(clientTokenProvider: clientTokenProvider)
+        let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
 
         let card = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: Braintree.Expiration(expirationMonth: 12, expirationYear: 2015))
 

@@ -1,4 +1,7 @@
 import Braintree
+import XCPlayground
+
+XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
 
 // Obtain a client token from your server in this block.
 //
@@ -9,17 +12,27 @@ var clientTokenHandler = {
 }
 
 // Initialize a Braintree instance with the client token handler.
-let b = Braintree(clientToken)
+let b = Braintree(clientTokenProvider: clientTokenHandler)
+
+let e = Braintree.Expiration(expirationMonth: 12, expirationYear: 2015)
 
 // Initialize a Tokenizable, such as CardDetails, based on user input.
-let c = Braintree.CardDetails(number: "41111111111111111", expiration: ExpirationDate(12, 2012))
+// TODO: Add verification data, like CVV or Postal Code
+let c = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: e)
 
 // Send the raw card details directly to Braintree in exchange for a payment method nonce.
 b.tokenize(c) { result in
     switch result {
-    case let .Error(message):
-        println("Got an error: \(error)")
+    case let .RequestError(message):
+        println("Got an error: \(message)")
+        XCPCaptureValue("Braintree tokenization request error", message)
+    case let .InternalError(message):
+        println("Got an internal error: \(message)")
+        XCPCaptureValue("Braintree tokenization internal error", message)
     case let .PaymentMethodNonce(nonce):
         println("Got a nonce: \(nonce)")
+        XCPCaptureValue("Braintree tokenization nonce", nonce)
     }
 }
+
+XCPSetExecutionShouldContinueIndefinitely()

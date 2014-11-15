@@ -5,13 +5,6 @@ public struct Braintree {
     /// The current version of the library
     public static let Version = "0.0.1"
 
-    public static let ErrorDomain = "BraintreeSwiftErrorDomain"
-
-    public enum ErrorCode : Int {
-        case APIError = 1
-        case InternalError = 2
-    }
-
     /// The customer's raw payment method details for uploading to Braintree
     ///
     ///  - Card: Payment details for a credit or debit card
@@ -21,7 +14,6 @@ public struct Braintree {
             public let expirationDate : String
 
             /// Initialize a TokenizationRequest based on an expiration date string
-            ///
             ///
             ///  :param: expirationDate the human-friendly expiration date, formatted "MM/YY", "MM/YYYY" or YYYY-MM
             ///
@@ -54,7 +46,9 @@ public struct Braintree {
             case let .Card(number, expiration):
                 return ["credit_card": [
                     "number": number,
-                    "expirationDate": expiration.expirationDate
+                    "expiration_date": expiration.expirationDate,
+                    "options": [ "validate": false ]
+
                 ]]
             }
         }
@@ -67,7 +61,7 @@ public struct Braintree {
     ///  - BraintreeError:     A payment method nonce could not be created because of Braintree
     public enum TokenizationResponse {
         case PaymentMethodNonce(nonce : String)
-        case RequestError(message : String)
+        case RequestError(message : String, fieldErrors : AnyObject)
         case BraintreeError(message : String)
     }
 
@@ -99,22 +93,42 @@ public struct Braintree {
         /// :param: completion A closure that is called upon completion
         public func tokenize(details : TokenizationRequest, completion : (TokenizationResponse) -> (Void)) {
             withConfiguration() {
-                self.api.post("v1/payment_methods/credit_cards", parameters: details.rawParameters(), completion: { (responseObject, error) -> (Void) in
-                    if let error : NSError = error {
-                        return completion(.RequestError(message: error.localizedDescription))
-                    }
+                self.api.post("v1/payment_methods/credit_cards", parameters: details.rawParameters(), completion: { (response) in
 
-                    if let responseObject = responseObject as? [String : AnyObject] {
-                        if let creditCardsArray = responseObject["creditCards"] as? [AnyObject] {
-                            if let creditCardObject = creditCardsArray[0] as? [String : AnyObject] {
-                                if let nonce = creditCardObject["nonce"] as? String {
-                                    return completion(.PaymentMethodNonce(nonce: nonce))
+                    switch response {
+                    case let .UnexpectedError(description, error):
+                        return completion(.BraintreeError(message: description))
+                    case let .Error(error):
+                        let e = error
+                        let message = e.localizedDescription
+                        return completion(.BraintreeError(message: message))
+                    case let .Completion(data, response):
+                        switch response.statusCode {
+                        case 400..<500:
+                            if let topLevelError = data["error"] as? Dictionary<String, String> {
+                                if let message = topLevelError["message"] {
+                                    return completion(.RequestError(message: message, fieldErrors: data))
                                 }
                             }
+                            return completion(.BraintreeError(message: "Tokenization Request Error"))
+                        case 200..<300:
+                            if let creditCardsArray = data["creditCards"] as? [AnyObject] {
+                                if let creditCardObject = creditCardsArray[0] as? [String : AnyObject] {
+                                    if let nonce = creditCardObject["nonce"] as? String {
+                                        return completion(.PaymentMethodNonce(nonce: nonce))
+                                    }
+                                }
+                            }
+                            return completion(.BraintreeError(message: "Invalid Response Format"))
+                        case 100..<200:
+                            fallthrough
+                        case 500..<999:
+                            fallthrough
+                        default:
+                            return completion(.BraintreeError(message: "Braintree Service Error"))
                         }
                     }
 
-                    return completion(.BraintreeError(message: "Invalid Response Format"))
                 })
             }
         }
@@ -197,7 +211,11 @@ public struct Braintree {
     // MARK: - API Client
 
     internal class API {
-        typealias CompletionHandler = ((_ : AnyObject!, _ : NSError!) -> (Void))?
+        enum Response {
+            case Completion(data : Dictionary<String,AnyObject>, response : NSHTTPURLResponse)
+            case Error(error: NSError)
+            case UnexpectedError(description: String, error: NSError?)
+        }
 
         private var baseURLComponents : NSURLComponents?
         private var authorizationFingerprint : String?
@@ -218,11 +236,11 @@ public struct Braintree {
         required init() {
         }
 
-        func post(path : String, parameters : Dictionary<String, AnyObject>?, completion : CompletionHandler) {
+        func post(path : String, parameters : Dictionary<String, AnyObject>?, completion : (Response) -> (Void)) {
             request("post", path: path, parameters: parameters, completion: completion)
         }
 
-        internal func request(method: String, path: String, parameters: Dictionary<String, AnyObject>?, completion: CompletionHandler) {
+        private func request(method: String, path: String, parameters: Dictionary<String, AnyObject>?, completion: (Response) -> (Void)) {
             if let baseURL = baseURL {
                 if let pathComponents = NSURLComponents(URL: baseURL.URLByAppendingPathComponent(path), resolvingAgainstBaseURL: false) {
                     let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
@@ -236,8 +254,7 @@ public struct Braintree {
 
                     pathComponents.percentEncodedQuery = "authorizationFingerprint=\(authorizationFingerprint)"
 
-                    if let URL = pathComponents.URL {
-                        let request = NSMutableURLRequest(URL: URL)
+                    let request = NSMutableURLRequest(URL: pathComponents.URL!)
                         request.HTTPMethod = method
 
                         if let parameters = parameters {
@@ -245,59 +262,40 @@ public struct Braintree {
                             request.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &JSONSerializationError)
                             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
-                            if let error = JSONSerializationError {
-                                if let completion = completion {
-                                    completion(nil, error)
-                                    return
-                                }
+                            if let JSONSerializationError = JSONSerializationError {
+                                return completion(.UnexpectedError(description: "Request JSON serialization error", error: JSONSerializationError))
                             }
                         }
 
                         print("[Braintree] API Request: ")
                         debugPrintln(request)
-                        session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-                            if let response : NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                                let broxyId = response.allHeaderFields["X-BroxyId"] as String? ?? ""
-                                println("[Braintree] API Response [\(broxyId)]: ")
-                                debugPrintln(response)
-                                if let completion = completion {
-                                    if error != nil {
-                                        completion(nil, error)
-                                    } else if response.statusCode >= 300 {
-                                        var responseObject : Dictionary<String, AnyObject>?
+                        session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                            let response = response as NSHTTPURLResponse!
+                            let broxyId = response.allHeaderFields["X-BroxyId"] as String? ?? ""
+                            println("[Braintree] API Response [\(broxyId)]: ")
+                            debugPrintln(response)
+                            if let error = error {
+                                return completion(.Error(error: error))
+                            }
 
-                                        if data.length > 0 && startsWith(response.allHeaderFields["Content-Type"] as String, "application/json") {
-                                            var jsonError : NSError?
-                                            responseObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as Dictionary<String, AnyObject>!
-                                            if let error = jsonError {
-                                                completion(nil, error)
-                                            }
-                                        }
+                            var responseObject : Dictionary<String, AnyObject>!
 
-                                        let error = Braintree.error(Braintree.ErrorCode.APIError, message: "Failed to save credit card")
-                                        completion(responseObject, error)
-                                    } else {
-                                        let responseObject : Dictionary<String, AnyObject>! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as Dictionary<String, AnyObject>!
-                                        completion(responseObject, nil)
-                                    }
+                            if data.length > 0 && startsWith(response.allHeaderFields["Content-Type"] as String, "application/json") {
+                                var jsonError : NSError?
+                                responseObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as Dictionary<String, AnyObject>!
+                                if let jsonError = jsonError {
+                                    return completion(.UnexpectedError(description: "Invalid JSON in response", error: jsonError))
                                 }
                             }
-                        }).resume()
-                    } else {
-                        let error = Braintree.error(.InternalError, message: "Invalid URL")
-                        if let completion = completion {
-                            completion(nil, error)
-                        }
-                        return
-                    }
+
+                            if let responseObject = responseObject as Dictionary<String, AnyObject>? {
+                                return completion(.Completion(data: responseObject, response: response))
+                            } else {
+                                return completion(.UnexpectedError(description: "Invalid JSON structure in response", error: nil))
+                            }
+                            }.resume()
                 }
             }
         }
-    }
-    
-    internal static func error(code: Braintree.ErrorCode, message : String) -> NSError {
-        return NSError(domain: Braintree.ErrorDomain,
-            code: Braintree.ErrorCode.InternalError.rawValue,
-            userInfo: [ NSLocalizedDescriptionKey: "Invalid URL" ])
     }
 }

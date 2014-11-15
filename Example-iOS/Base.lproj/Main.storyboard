@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -17,35 +18,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nonce_" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCD-c7-wIV">
-                                <rect key="frame" x="272.5" y="290" width="56" height="20.5"/>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nonce_" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VCD-c7-wIV">
+                                <rect key="frame" x="272" y="290" width="56" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKu-k9-pOn">
-                                <rect key="frame" x="238" y="541" width="125" height="30"/>
-                                <state key="normal" title="Tokenize Test Visa">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="demonstrateTokenization" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FaX-B5-Bou"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5v-xg-EiU" userLabel="Layout Container">
+                                <rect key="frame" x="16" y="534" width="568" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKu-k9-pOn">
+                                        <rect key="frame" x="20" y="0.0" width="528" height="30"/>
+                                        <state key="normal" title="Tokenize Test Visa">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="demonstrateTokenization" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FaX-B5-Bou"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="rKu-k9-pOn" firstAttribute="leading" secondItem="s5v-xg-EiU" secondAttribute="leading" constant="20" symbolic="YES" id="KaH-gE-E6Z"/>
+                                    <constraint firstItem="rKu-k9-pOn" firstAttribute="top" secondItem="s5v-xg-EiU" secondAttribute="top" id="SZe-Y2-pRZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="rKu-k9-pOn" secondAttribute="trailing" constant="20" symbolic="YES" id="dvA-wG-KKc"/>
+                                    <constraint firstAttribute="bottom" secondItem="rKu-k9-pOn" secondAttribute="bottom" id="zDr-MY-TdS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="rKu-k9-pOn" secondAttribute="bottom" multiplier="1.05" id="7TB-YH-N8A"/>
-                            <constraint firstAttribute="centerX" secondItem="rKu-k9-pOn" secondAttribute="centerX" id="Mkz-OE-tBT"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="s5v-xg-EiU" secondAttribute="bottom" multiplier="1.05" constant="8" symbolic="YES" id="0fM-mJ-A6B"/>
                             <constraint firstAttribute="centerX" secondItem="VCD-c7-wIV" secondAttribute="centerX" id="Mmn-e9-PI3"/>
-                            <constraint firstAttribute="centerX" secondItem="rKu-k9-pOn" secondAttribute="centerX" id="a8K-oV-icy"/>
+                            <constraint firstItem="s5v-xg-EiU" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="NpM-6f-21d"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="s5v-xg-EiU" secondAttribute="trailing" id="f7W-Y5-zau"/>
                             <constraint firstAttribute="centerY" secondItem="VCD-c7-wIV" secondAttribute="centerY" id="snU-x0-oh6"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Mkz-OE-tBT"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="nonceLabel" destination="VCD-c7-wIV" id="cUy-fs-yQQ"/>

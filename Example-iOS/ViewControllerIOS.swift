@@ -7,6 +7,8 @@ func debug(message : String) {
 }
 
 class ViewControllerIOS: UIViewController {
+
+
     let session = NSURLSession(configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
         delegate: nil,
         delegateQueue: NSOperationQueue.mainQueue())
@@ -15,41 +17,11 @@ class ViewControllerIOS: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.nonceLabel.alpha = 0.0
+        nonceLabel.alpha = 0.0
     }
 
     @IBAction
     func demonstrateTokenization() {
-        let clientTokenProvider : Braintree.Client.ClientTokenProvider = { [weak self] completion in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            if let baseURL = self?.baseURL {
-                if let URL : NSURL = NSURL(string: "/client_token", relativeToURL: baseURL) {
-                    if let session = self?.session {
-                        session.dataTaskWithURL(URL, completionHandler: { (data, response, error) -> Void in
-                            if let data = data {
-                                let clientTokenResponseObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as Dictionary<String,String>
-                                if let clientToken : String = clientTokenResponseObject["client_token"] as String? {
-                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                                    completion(clientToken)
-                                }
-                            }
-                        }).resume()
-                    } else {
-                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        completion(nil)
-                    }
-                } else {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    completion(nil)
-                }
-            } else {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                completion(nil)
-            }
-        }
-
-        // Obtain a client token from your server in this block.
-
         // Initialize a Braintree instance with the client token handler.
         debug("Initializing Braintree v\(Braintree.Version)")
         let braintree = Braintree.Client(clientTokenProvider: clientTokenProvider)
@@ -64,18 +36,51 @@ class ViewControllerIOS: UIViewController {
         self.nonceLabel.alpha = 0.0
 
         debug("Tokenizing Test Visa")
-        braintree.tokenize(card) { [weak self] result in
-            switch result {
-            case let .RequestError(message):
-                debug("Got an error: \(message)")
-            case let .BraintreeError(message):
-                debug("Got an error: \(message)")
-            case let .PaymentMethodNonce(nonce):
-                debug("Got a nonce: \(nonce)")
+        braintree.tokenize(card, handleTokenization)
+    }
 
-                self?.nonceLabel.text = nonce
-                self?.nonceLabel.alpha = 1.0
+    lazy var handleTokenization : (Braintree.TokenizationResponse) -> (Void) = { [weak self] result in
+        switch result {
+        case let .RequestError(message, fieldErrors):
+            debug("Got a request error: \(message)\n\(fieldErrors)")
+        case let .BraintreeError(message):
+            debug("Got a Braintree error: \(message)")
+        case let .PaymentMethodNonce(nonce):
+            debug("Got a nonce: \(nonce)")
+
+            if let nonceLabel = self?.nonceLabel {
+                nonceLabel.text = nonce
+                nonceLabel.alpha = 1.0
             }
+        }
+    }
+
+    // Obtain a client token from your server in this block.
+    lazy var clientTokenProvider : Braintree.Client.ClientTokenProvider = { [weak self] completion in
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        if let baseURL = self?.baseURL {
+            if let URL : NSURL = NSURL(string: "/client_token", relativeToURL: baseURL) {
+                if let session = self?.session {
+                    session.dataTaskWithURL(URL, completionHandler: { (data, response, error) -> Void in
+                        if let data = data {
+                            let clientTokenResponseObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as Dictionary<String,String>
+                            if let clientToken : String = clientTokenResponseObject["client_token"] as String? {
+                                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                completion(clientToken)
+                            }
+                        }
+                    }).resume()
+                } else {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    completion(nil)
+                }
+            } else {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                completion(nil)
+            }
+        } else {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            completion(nil)
         }
     }
 }

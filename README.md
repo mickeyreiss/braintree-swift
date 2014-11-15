@@ -1,6 +1,6 @@
 # Braintree Swift
 
-A client Braintree library for Swift apps.
+Braintree v.zero for Swift apps on iOS and OS X.
 
 ## Features
 
@@ -18,7 +18,24 @@ A client Braintree library for Swift apps.
 
 ## Usage
 
+```swift
+let braintree = Braintree.Client(clientTokenProvider)
+let card = Braintree.PaymentMethodDetails.Card(number: "4111111111111111", expiration: Braintree.Expiration(expirationMonth: 12, expirationYear: 2015))
+braintree.tokenize(card) { result in
+    switch result {
+    case let .RequestError(message):
+        println("Got a validation error: \(message)")
+    case let .BraintreeError(message):
+        println("Got a Braintree error: \(message)")
+    case let .PaymentMethodNonce(nonce):
+        println("Got a nonce: \(nonce)")
+    }
+}
+```
+
 See [Braintree Playground](BraintreeUsage.playground/section-1.swift).
+
+Read [Braintree's developer documentation](https://developers.braintreepayments.com/ios) for more information about the processing payments with Braintree.
 
 ## Minimum Requirements
 

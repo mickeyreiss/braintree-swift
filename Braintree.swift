@@ -63,14 +63,14 @@ public struct Braintree {
             #if os(iOS)
                 switch self {
                 case let .Card(number: number, expiration: expiration):
-                    return creditCardParameters(number, expiration)
+                return creditCardParameters(number, expiration)
                 case let .ApplePay(payment: payment):
-                    let token = payment.token
-                    return ["applePaymentToken": [
-                        "paymentData": token.paymentData.base64EncodedStringWithOptions(nil),
-                        "paymentInstrumentName": token.paymentInstrumentName,
-                        "transactionIdentifier": token.transactionIdentifier,
-                        "paymentNetwork": token.paymentNetwork ] ]
+                let token = payment.token
+                return ["applePaymentToken": [
+                "paymentData": token.paymentData.base64EncodedStringWithOptions(nil),
+                "paymentInstrumentName": token.paymentInstrumentName,
+                "transactionIdentifier": token.transactionIdentifier,
+                "paymentNetwork": token.paymentNetwork ] ]
                 }
                 #else
                 switch self {
@@ -86,11 +86,11 @@ public struct Braintree {
             #if os(iOS)
                 switch self {
                 case let .Card(number: String, expiration: Expiration):
-                    return cardResource
+                return cardResource
                 case let .ApplePay(payment: payment):
-                    return "v1/payment_methods/apple_payment_tokens"
+                return "v1/payment_methods/apple_payment_tokens"
                 }
-            #else
+                #else
                 switch self {
                 case let .Card(number: String, expiration: Expiration):
                     return cardResource
@@ -98,42 +98,20 @@ public struct Braintree {
             #endif
         }
 
-        internal func parseNonceFromResponse(data : [String:AnyObject]) -> String? {
-            let cardsCase : (String, Expiration) -> (String?) = { number, expiration in
-                    if let creditCardsArray = data["creditCards"] as? [AnyObject] {
-                        if let creditCardObject = creditCardsArray[0] as? [String:AnyObject] {
-                            if let nonce = creditCardObject["nonce"] as? String {
-                                return nonce
-                            }
-                        }
-                    }
-                return nil
-            }
-
+        internal var jsonResponseRoot : String {
             #if os(iOS)
                 switch self {
                 case let .Card(number: number, expiration: expiration):
-                    if let nonce = cardsCase(number, expiration) {
-                        return nonce
-                    }
+                return "creditCards"
                 case let .ApplePay(payment: payment):
-                    if let applePayCardsArray = data["applePayCards"] as? [AnyObject] {
-                        if let cardObject = applePayCardsArray[0] as? [String : AnyObject] {
-                            if let nonce = cardObject["nonce"] as? String {
-                                return nonce
-                            }
-                        }
-                    }
+                return "applePayCards"
                 }
-            #else
+                #else
                 switch self {
                 case let .Card(number: number, expiration: expiration):
-                    if let nonce = cardsCase(number, expiration) {
-                        return nonce
-                    }
+                    return "creditCards"
                 }
             #endif
-            return nil
         }
     }
 
@@ -144,7 +122,7 @@ public struct Braintree {
     ///  - BraintreeError:     A payment method nonce could not be created because of Braintree
     public enum TokenizationResponse {
         case PaymentMethodNonce(nonce : String)
-        case RequestError(message : String, fieldErrors : AnyObject)
+        case RequestError(message : String, fieldErrors : JSON)
         case BraintreeError(message : String)
     }
 
@@ -188,17 +166,15 @@ public struct Braintree {
                         let e = error
                         let message = e.localizedDescription
                         return completion(.BraintreeError(message: message))
-                    case let .Completion(data, response):
+                    case let .Completion(JSON, response):
                         switch response.statusCode {
                         case 400..<500:
-                            if let topLevelError = data["error"] as? Dictionary<String, String> {
-                                if let message = topLevelError["message"] {
-                                    return completion(.RequestError(message: message, fieldErrors: data))
-                                }
+                            if let topLevelError = JSON["error"]["message"].asString {
+                                return completion(.RequestError(message: topLevelError, fieldErrors: JSON))
                             }
                             return completion(.BraintreeError(message: "Tokenization Request Error"))
                         case 200..<300:
-                            if let nonce = details.parseNonceFromResponse(data) {
+                            if let nonce = JSON[details.jsonResponseRoot][0]["nonce"].asString {
                                 return completion(.PaymentMethodNonce(nonce: nonce))
                             }
 
@@ -280,7 +256,7 @@ public struct Braintree {
             }
             return nil
         }
-        
+
         var version : Int? { return self["version"].asInt }
         var clientApiUrl : NSURL? {
             if let clientApiUrl = self["clientApiUrl"].asString {
@@ -301,7 +277,7 @@ public struct Braintree {
 
     internal class API {
         enum Response {
-            case Completion(data : Dictionary<String,AnyObject>, response : NSHTTPURLResponse)
+            case Completion(JSON : JSON, response : NSHTTPURLResponse)
             case Error(error: NSError)
             case UnexpectedError(description: String, error: NSError?)
         }
@@ -329,7 +305,7 @@ public struct Braintree {
             request("post", path: path, parameters: parameters, completion: completion)
         }
 
-        private func request(method: String, path: String, parameters: Dictionary<String, AnyObject>?, completion: (Response) -> (Void)) {
+        private func request(method: String, path: String, parameters: [String:AnyObject]?, completion: (Response) -> (Void)) {
             if let baseURL = baseURL {
                 if let pathComponents = NSURLComponents(URL: baseURL.URLByAppendingPathComponent(path), resolvingAgainstBaseURL: false) {
                     let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
@@ -347,18 +323,13 @@ public struct Braintree {
                     request.HTTPMethod = method
 
                     if let parameters = parameters {
-                        var JSONSerializationError : NSError?
-                        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &JSONSerializationError)
+                        request.HTTPBody = JSON(parameters).toString().dataUsingEncoding(NSUTF8StringEncoding)
                         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-
-                        if let JSONSerializationError = JSONSerializationError {
-                            return completion(.UnexpectedError(description: "Request JSON serialization error", error: JSONSerializationError))
-                        }
                     }
 
                     print("[Braintree] API Request: ")
                     debugPrintln(request)
-                    session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                    session.dataTaskWithRequest(request, { (data, response, error) -> Void in
                         let response = response as NSHTTPURLResponse!
                         let broxyId = response.allHeaderFields["X-BroxyId"] as String? ?? ""
                         println("[Braintree] API Response [\(broxyId)]: ")
@@ -367,22 +338,18 @@ public struct Braintree {
                             return completion(.Error(error: error))
                         }
 
-                        var responseObject : Dictionary<String, AnyObject>!
-
-                        if data.length > 0 && startsWith(response.allHeaderFields["Content-Type"] as String, "application/json") {
-                            var jsonError : NSError?
-                            responseObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as Dictionary<String, AnyObject>!
-                            if let jsonError = jsonError {
-                                return completion(.UnexpectedError(description: "Invalid JSON in response", error: jsonError))
-                            }
+                        if data.length == 0 || !startsWith(response.allHeaderFields["Content-Type"] as String, "application/json") {
+                            return completion(.UnexpectedError(description: "Invalid API response", error: nil))
                         }
 
-                        if let responseObject = responseObject as Dictionary<String, AnyObject>? {
-                            return completion(.Completion(data: responseObject, response: response))
-                        } else {
-                            return completion(.UnexpectedError(description: "Invalid JSON structure in response", error: nil))
+                        let responseJSON = JSON(data: data)
+
+                        if let jsonError = responseJSON.asError {
+                            return completion(.UnexpectedError(description: "Invalid JSON in response", error: jsonError))
                         }
-                    }.resume()
+                        
+                        return completion(.Completion(JSON: responseJSON, response: response))
+                    }).resume()
                 }
             }
         }

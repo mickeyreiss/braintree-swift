@@ -1,0 +1,3 @@
+[submodule "swift-json"]
+	path = swift-json
+	url = git@github.com:mickeyreiss/swift-json.git

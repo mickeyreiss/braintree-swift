@@ -154,6 +154,9 @@ public struct Braintree {
     public class Client {
         /// A function that obtains a Client Token from your server whenever this library asks for one
         ///
+        /// This function *must* invoke the completion callback, even if only to tell Braintree that
+        /// it is not possible to generate a Client Token at this time (by passing `nil`).
+        ///
         /// :note: A fresh client token should be generated and fetched each time this function is called.
         public typealias ClientTokenProvider = ((String?) -> (Void)) -> Void
 
@@ -239,33 +242,22 @@ public struct Braintree {
         private func refreshConfiguration() {
             self.clientTokenProvider() { [weak self] clientToken in
                 if let clientToken = clientToken {
-                    if let decodedClientTokenData = NSData(base64EncodedString: clientToken, options : nil) {
-                        if let clientTokenObject = NSJSONSerialization.JSONObjectWithData(decodedClientTokenData, options: nil, error: nil) as? Dictionary<String, AnyObject> {
-                            if let version = clientTokenObject["version"] as? Int {
-                                if let baseURLString = clientTokenObject["clientApiUrl"] as? String {
-                                    if let baseURL = NSURL(string: baseURLString) {
-                                        if let authorizationFingerprint = clientTokenObject["authorizationFingerprint"] as? String {
-                                            self?.configuration = Configuration(clientApiBaseURL: baseURL, authorizationFingerprint: authorizationFingerprint)
-                                        }  else {
-                                            return println("Braintree: Invalid client token (missing authorization fingerprint)")
-                                        }
-                                    } else {
-                                        return println("Braintree: Invalid client token (invalid clientApiUrl)")
-                                    }
-                                } else {
-                                    return println("Braintree: Invalid client token (missing clientApiUrl)")
-                                }
-                            } else {
-                                return println("Braintree: Invalid client token (unsupported version)")
-                            }
-                        } else {
-                            return println("Braintree: Invalid client token (unsupported format)")
+                    if let parsedClientToken = ClientToken.parse(clientToken: clientToken) {
+                        let version : Int? = parsedClientToken.version
+                        let clientApiUrl : NSURL? = parsedClientToken.clientApiUrl
+                        let authorizationFingerprint : String? = parsedClientToken.authorizationFingerprint
+
+                        if version != 2 || clientApiUrl == nil || authorizationFingerprint == nil {
+                            return println("Braintree: Invalid client token")
                         }
-                    } else {
-                        return println("Braintree: Invalid client token (unsupported format)")
+
+                        self?.configuration = Configuration(
+                            clientApiBaseURL: clientApiUrl!,
+                            authorizationFingerprint: authorizationFingerprint!
+                        )
                     }
                 } else {
-                    return println("Braintree: Client token was not returned when requested by client token provider")
+                    return println("Braintree: Client Token was not provided when requested from client token provider")
                 }
             }
         }
@@ -277,11 +269,28 @@ public struct Braintree {
                 withConfigurationQueue.append(completion)
             }
         }
-
-        // MARK: - Payment Method Tokenization
     }
 
     // MARK: - Types
+
+    class ClientToken : JSON {
+        class func parse(#clientToken: String) -> ClientToken? {
+            if let decodedClientToken = NSData(base64EncodedString: clientToken, options: nil) {
+                return ClientToken(data: decodedClientToken)
+            }
+            return nil
+        }
+        
+        var version : Int? { return self["version"].asInt }
+        var clientApiUrl : NSURL? {
+            if let clientApiUrl = self["clientApiUrl"].asString {
+                return NSURL(string: clientApiUrl)
+            } else {
+                return nil
+            }
+        }
+        var authorizationFingerprint : String? { return self["authorizationFingerprint"].asString }
+    }
 
     internal struct Configuration {
         let clientApiBaseURL : NSURL

@@ -49,7 +49,7 @@ Read [Braintree's developer documentation](https://developers.braintreepayments.
 
 ## Project Status
 
-:warning: Under Construction :warning: - This library is not officially supported by Braintree; use it at your own risk. [braintree_ios](https://github.com/braintre/braintree_ios), which is written in Objective-C, is fully supported and interoperable with Swift apps.
+:warning: Under Construction :warning: - This library is not officially supported by Braintree; use it at your own risk. [braintree_ios](https://github.com/braintree/braintree_ios), which is written in Objective-C, is fully supported and interoperable with Swift apps.
 
 ### Missing Features
 
